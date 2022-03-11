@@ -1,0 +1,1 @@
+This article outlines what you'd need to do to use Bitbucket Pipelines to deploy a CDK app to AWS, using OIDC to authenticate. Even though the example shows a CDK deployment, most of the code is usable for use with Terraform, CloudFormation or Pulumi. If you have any issues, check if AWS_WEB_IDENTITY_TOKEN_FILE is supported.
