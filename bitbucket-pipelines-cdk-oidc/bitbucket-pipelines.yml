@@ -1,1 +1,33 @@
-#Work in progress! Nobody reads this anyway right
+image: node:16.3.0
+
+pipelines:
+  branches:
+    main:
+      - step:
+          name: CDK Synth
+          oidc: true
+          caches: 
+            - node
+          script:
+            - export AWS_REGION=eu-west-1
+            - export AWS_ROLE_ARN=arn:aws:iam::012345678901:role/IAMRoleForBitBucket
+            - export AWS_WEB_IDENTITY_TOKEN_FILE=$(pwd)/web-identity-token
+            - echo $BITBUCKET_STEP_OIDC_TOKEN > $(pwd)/web-identity-token
+            - npm install
+            - npx cdk synth
+          artifacts:
+            - aws/cdk.out/**
+      - step:
+          name: CDK Deploy
+          oidc: true
+          caches: 
+            - node          
+          script:
+            - export AWS_REGION=eu-west-1
+            - export AWS_ROLE_ARN=arn:aws:iam::012345678901:role/IAMRoleForBitBucket
+            - export AWS_WEB_IDENTITY_TOKEN_FILE=$(pwd)/web-identity-token
+            - echo $BITBUCKET_STEP_OIDC_TOKEN > $(pwd)/web-identity-token
+            - npm install
+            - npx cdk deploy
+          services:
+            - docker
