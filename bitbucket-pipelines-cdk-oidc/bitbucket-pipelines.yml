@@ -16,7 +16,7 @@ pipelines:
             - npm install
             - npx cdk synth
           artifacts:
-            - aws/cdk.out/**
+            - cdk.out/**
       - step:
           name: CDK Deploy
           oidc: true
